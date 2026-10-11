@@ -66,18 +66,36 @@ export function percent(progress?: number, total?: number): number {
 }
 
 /**
+ * Single source of truth for the URL allow-list. Feed, API and local data are
+ * only semi-trusted, so anything that isn't http(s), an allowed `mailto:`, or
+ * site-relative is rejected outright (no `javascript:`, `data:`, or
+ * protocol-relative URLs).
+ *
+ * `allowMailto` exists because the call sites legitimately differ: navigation
+ * links accept `mailto:`, whereas image sources and the AniList/Jikan
+ * normaliser must not.
+ */
+export function isAllowedUrl(
+  value: string,
+  { allowMailto = true }: { allowMailto?: boolean } = {},
+): boolean {
+  if (/^https?:\/\//i.test(value)) return true;
+  if (allowMailto && /^mailto:/i.test(value)) return true;
+  if (value.startsWith("/") && !value.startsWith("//")) return true;
+  return false;
+}
+
+/**
  * Allow-list a URL before it reaches an `href`. Feed and API data is only
  * semi-trusted, so anything that isn't http(s), mailto, or site-relative is
  * rejected outright (no `javascript:`, `data:`, or protocol-relative URLs).
+ * Trims surrounding whitespace and returns the trimmed value, or `undefined`.
  */
 export function safeHref(url?: string): string | undefined {
   if (!url) return undefined;
   const value = url.trim();
   if (!value) return undefined;
-  if (value.startsWith("/") && !value.startsWith("//")) return value;
-  if (/^https?:\/\//i.test(value)) return value;
-  if (/^mailto:/i.test(value)) return value;
-  return undefined;
+  return isAllowedUrl(value) ? value : undefined;
 }
 
 /** Truncate plain text, stripping HTML tags first. */

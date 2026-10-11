@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { isAllowedUrl } from "@/lib/utils";
 
 /* -------------------------------------------------------------------------- */
 /*  Shared primitives                                                         */
@@ -12,28 +13,15 @@ import { z } from "zod";
  * allow-list: http(s), mailto, or site-relative ("/...").
  */
 const safeUrl = (label = "URL") =>
-  z
-    .string()
-    .refine(
-      (value) =>
-        /^https?:\/\//i.test(value) ||
-        /^mailto:/i.test(value) ||
-        (value.startsWith("/") && !value.startsWith("//")),
-      {
-        message: `${label} must be an absolute http(s)/mailto URL or a site-relative path`,
-      },
-    );
+  z.string().refine((value) => isAllowedUrl(value), {
+    message: `${label} must be an absolute http(s)/mailto URL or a site-relative path`,
+  });
 
 const imageUrl = z
   .string()
-  .refine(
-    (value) =>
-      /^https?:\/\//i.test(value) ||
-      (value.startsWith("/") && !value.startsWith("//")),
-    {
-      message: "image must be an absolute http(s) URL or a site-relative path",
-    },
-  )
+  .refine((value) => isAllowedUrl(value, { allowMailto: false }), {
+    message: "image must be an absolute http(s) URL or a site-relative path",
+  })
   .optional();
 
 const linkUrl = safeUrl("link").optional();

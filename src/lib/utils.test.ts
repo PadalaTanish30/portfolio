@@ -4,6 +4,7 @@ import {
   formatDate,
   formatProgress,
   formatScore,
+  isAllowedUrl,
   percent,
   relativeTime,
   safeHref,
@@ -39,6 +40,16 @@ describe("safeHref", () => {
 
   it("trims surrounding whitespace", () => {
     expect(safeHref("  https://example.com  ")).toBe("https://example.com");
+    expect(safeHref("\thttps://example.com\n")).toBe("https://example.com");
+  });
+
+  it("accepts the site root and a bare mailto: prefix", () => {
+    expect(safeHref("/")).toBe("/");
+    expect(safeHref("mailto:")).toBe("mailto:");
+  });
+
+  it("matches the scheme case-insensitively", () => {
+    expect(safeHref("MailTo:me@example.com")).toBe("MailTo:me@example.com");
   });
 });
 
@@ -141,5 +152,31 @@ describe("cn", () => {
 
   it("resolves Tailwind conflicts, last wins", () => {
     expect(cn("p-2", "p-4")).toBe("p-4");
+  });
+});
+
+describe("isAllowedUrl", () => {
+  it("accepts http(s) and site-relative URLs by default", () => {
+    expect(isAllowedUrl("https://example.com")).toBe(true);
+    expect(isAllowedUrl("http://example.com")).toBe(true);
+    expect(isAllowedUrl("/anime")).toBe(true);
+  });
+
+  it("allows mailto by default but rejects it when allowMailto is false", () => {
+    expect(isAllowedUrl("mailto:me@example.com")).toBe(true);
+    expect(isAllowedUrl("mailto:me@example.com", { allowMailto: false })).toBe(
+      false,
+    );
+    expect(isAllowedUrl("https://example.com", { allowMailto: false })).toBe(
+      true,
+    );
+    expect(isAllowedUrl("/anime", { allowMailto: false })).toBe(true);
+  });
+
+  it("rejects dangerous schemes, protocol-relative and empty values", () => {
+    expect(isAllowedUrl("javascript:alert(1)")).toBe(false);
+    expect(isAllowedUrl("data:text/html,x")).toBe(false);
+    expect(isAllowedUrl("//evil.example.com")).toBe(false);
+    expect(isAllowedUrl("")).toBe(false);
   });
 });

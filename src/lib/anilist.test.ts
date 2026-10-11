@@ -129,6 +129,30 @@ describe("getAnimeList — AniList source", () => {
     expect(entries[1]?.coverImage).toBe("/local.png");
   });
 
+  it("neutralises a mailto link from the API (mailto is not allowed for API values)", async () => {
+    vi.stubEnv("ANILIST_USERNAME", "someone");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        jsonResponse(
+          anilistBody([
+            {
+              status: "CURRENT",
+              media: {
+                id: 9,
+                title: { romaji: "M" },
+                siteUrl: "mailto:x@y.com",
+              },
+            },
+          ]),
+        ),
+      ),
+    );
+    const { entries } = await getAnimeList();
+    expect(entries).toHaveLength(1);
+    expect(entries[0]?.link).toBeUndefined();
+  });
+
   it("omits a zero score", async () => {
     vi.stubEnv("ANILIST_USERNAME", "someone");
     vi.stubGlobal(

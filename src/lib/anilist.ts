@@ -3,6 +3,7 @@ import { mangaFallback } from "@/data/manga";
 import type { MediaEntry, MediaStatus } from "@/lib/types";
 import { MediaEntrySchema } from "@/lib/types";
 import { REVALIDATE_SECONDS } from "@/lib/site";
+import { isAllowedUrl } from "@/lib/utils";
 
 /* -------------------------------------------------------------------------- */
 /*  AniList (primary) — public GraphQL, no API key required                    */
@@ -25,9 +26,7 @@ function describeError(error: unknown): string {
  */
 function safeUrlValue(value: string | null | undefined): string | undefined {
   if (!value) return undefined;
-  if (/^https?:\/\//i.test(value)) return value;
-  if (value.startsWith("/") && !value.startsWith("//")) return value;
-  return undefined;
+  return isAllowedUrl(value, { allowMailto: false }) ? value : undefined;
 }
 
 /**
