@@ -2,67 +2,54 @@ import type { Discord, SocialLink } from "@/lib/types";
 import { DiscordSchema, SocialLinkSchema } from "@/lib/types";
 
 // ---------------------------------------------------------------------------
-// TODO: Replace with your real social links.
-// `platform` maps to an icon in `components/platform-icon.tsx` — supported
-// values: github, x, twitter, linkedin, youtube, instagram, twitch, tiktok,
-// reddit, bluesky, mastodon, discord, steam, spotify, anilist, myanimelist,
-// letterboxd, website, email.
+// Social links. `platform` maps to an icon in `components/platform-icon.tsx` —
+// supported values: github, x, twitter, linkedin, youtube, instagram, twitch,
+// tiktok, reddit, bluesky, mastodon, discord, steam, spotify, anilist,
+// myanimelist, letterboxd, website, email.
 // ---------------------------------------------------------------------------
 
 export const socials: SocialLink[] = SocialLinkSchema.array().parse([
   {
     platform: "github",
     label: "GitHub",
-    url: "https://github.com/yourhandle",
-    handle: "@yourhandle",
+    url: "https://github.com/PadalaTanish30",
+    handle: "@PadalaTanish30",
   },
   {
     platform: "x",
     label: "X",
-    url: "https://x.com/yourhandle",
-    handle: "@yourhandle",
+    url: "https://x.com/hey_tanish",
+    handle: "@hey_tanish",
   },
   {
     platform: "youtube",
     label: "YouTube",
-    url: "https://youtube.com/@yourhandle",
-    handle: "@yourhandle",
-  },
-  {
-    platform: "anilist",
-    label: "AniList",
-    url: "https://anilist.co/user/yourhandle",
-    handle: "yourhandle",
-  },
-  {
-    platform: "myanimelist",
-    label: "MyAnimeList",
-    url: "https://myanimelist.net/profile/yourhandle",
-    handle: "yourhandle",
-  },
-  {
-    platform: "steam",
-    label: "Steam",
-    url: "https://steamcommunity.com/id/yourhandle",
-    handle: "yourhandle",
-  },
-  {
-    platform: "spotify",
-    label: "Spotify",
-    url: "https://open.spotify.com/user/yourhandle",
-    handle: "yourhandle",
+    url: "https://www.youtube.com/@heytanish",
+    handle: "@heytanish",
   },
   {
     platform: "linkedin",
     label: "LinkedIn",
-    url: "https://www.linkedin.com/in/yourhandle",
-    handle: "yourhandle",
+    url: "https://www.linkedin.com/in/tanish-padala",
+    handle: "tanish-padala",
+  },
+  {
+    platform: "anilist",
+    label: "AniList",
+    url: "https://anilist.co/user/TanZer0",
+    handle: "TanZer0",
+  },
+  {
+    platform: "steam",
+    label: "Steam",
+    url: "https://steamcommunity.com/id/TanZer0",
+    handle: "TanZer0",
   },
   {
     platform: "email",
     label: "Email",
-    url: "mailto:you@example.com",
-    handle: "you@example.com",
+    url: "mailto:padalatanish30@gmail.com",
+    handle: "padalatanish30@gmail.com",
   },
 ]);
 
