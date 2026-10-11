@@ -28,8 +28,18 @@ jobs:
           node-version: 24
           cache: npm
 
+      # Deliberately `npm install` rather than `npm ci`.
+      #
+      # The lockfile was generated on Windows, and npm does not record the
+      # transitive optional deps of a couple of wasm32 fallback packages:
+      # `@emnapi/core` and `@emnapi/runtime` are only present at 1.10.0 (nested
+      # under @unrs/resolver-binding-wasm32-wasi), while @img/sharp-wasm32 wants
+      # ^1.11.3 and @tailwindcss/oxide-wasm32-wasi wants ^1.11.1. `npm ci`
+      # validates the lockfile strictly and refuses to proceed on Linux;
+      # `npm install` reconciles the tree and still honours every locked
+      # version. Vercel installs the same way, so CI mirrors the real build.
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Typecheck
         run: npm run typecheck
