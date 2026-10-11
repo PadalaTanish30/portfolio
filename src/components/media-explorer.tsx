@@ -1,15 +1,20 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useSyncExternalStore, type ReactNode } from "react";
 import { ArrowUpDown, Search } from "lucide-react";
 import type { MediaEntry, MediaStatus } from "@/lib/types";
+import {
+  buildExplorerSearch,
+  isExplorerSort,
+  parseExplorerSearch,
+  type ExplorerSort,
+  type ExplorerState,
+} from "@/lib/explorer-query";
 import { MediaCard } from "@/components/media-card";
 import { EmptyState } from "@/components/empty-state";
 import { cn } from "@/lib/utils";
 
-type SortKey = "default" | "title" | "score" | "progress" | "year";
-
-const SORTS: { value: SortKey; label: string }[] = [
+const SORTS: { value: ExplorerSort; label: string }[] = [
   { value: "default", label: "Default" },
   { value: "progress", label: "Progress" },
   { value: "score", label: "Score" },
@@ -17,9 +22,38 @@ const SORTS: { value: SortKey; label: string }[] = [
   { value: "year", label: "Newest" },
 ];
 
-function isSortKey(value: string): value is SortKey {
-  return SORTS.some((option) => option.value === value);
+/* -------------------------------------------------------------------------- */
+/*  The query string is the store                                             */
+/* -------------------------------------------------------------------------- */
+/*
+ * Filters live in the URL so a filtered view is shareable and the back/forward
+ * buttons behave. Keeping the URL as the single source of truth (read through
+ * `useSyncExternalStore`) avoids `useSearchParams` — which would force a
+ * Suspense boundary and a router round-trip on every keystroke — so the page
+ * stays statically prerenderable and the list stays instant.
+ */
+
+const listeners = new Set<() => void>();
+
+function subscribeToUrl(onChange: () => void) {
+  listeners.add(onChange);
+  window.addEventListener("popstate", onChange);
+  return () => {
+    listeners.delete(onChange);
+    window.removeEventListener("popstate", onChange);
+  };
 }
+
+/** `replaceState` does not fire `popstate`, so notify subscribers ourselves. */
+function replaceSearch(next: string) {
+  const { pathname, hash } = window.location;
+  window.history.replaceState(null, "", `${pathname}${next}${hash}`);
+  for (const listener of listeners) listener();
+}
+
+const getUrlSearch = () => window.location.search;
+/** On the server (and during hydration) there is no URL — render defaults. */
+const getServerSearch = () => "";
 
 export function MediaExplorer({
   entries,
@@ -28,9 +62,25 @@ export function MediaExplorer({
   entries: MediaEntry[];
   statusFilters?: { value: MediaStatus; label: string }[];
 }) {
-  const [status, setStatus] = useState<MediaStatus | "all">("all");
-  const [sort, setSort] = useState<SortKey>("default");
-  const [query, setQuery] = useState("");
+  const allowedStatuses = useMemo(
+    () => (statusFilters ?? []).map((filter) => filter.value),
+    [statusFilters],
+  );
+
+  const search = useSyncExternalStore(
+    subscribeToUrl,
+    getUrlSearch,
+    getServerSearch,
+  );
+
+  const { status, sort, query } = useMemo(
+    () => parseExplorerSearch(search, allowedStatuses),
+    [search, allowedStatuses],
+  );
+
+  const update = (patch: Partial<ExplorerState>) => {
+    replaceSearch(buildExplorerSearch({ status, sort, query, ...patch }));
+  };
 
   const filtered = useMemo(() => {
     let result = entries;
@@ -80,7 +130,7 @@ export function MediaExplorer({
         >
           <FilterChip
             active={status === "all"}
-            onClick={() => setStatus("all")}
+            onClick={() => update({ status: "all" })}
           >
             All
           </FilterChip>
@@ -88,7 +138,7 @@ export function MediaExplorer({
             <FilterChip
               key={filter.value}
               active={status === filter.value}
-              onClick={() => setStatus(filter.value)}
+              onClick={() => update({ status: filter.value })}
             >
               {filter.label}
             </FilterChip>
@@ -108,7 +158,7 @@ export function MediaExplorer({
               autoComplete="off"
               spellCheck={false}
               value={query}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={(event) => update({ query: event.target.value })}
               placeholder="Search…"
               className="h-9 w-full rounded-full border border-border bg-surface pl-9 pr-3 text-sm outline-none focus-visible:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:w-44"
             />
@@ -122,7 +172,8 @@ export function MediaExplorer({
             <select
               value={sort}
               onChange={(event) => {
-                if (isSortKey(event.target.value)) setSort(event.target.value);
+                if (isExplorerSort(event.target.value))
+                  update({ sort: event.target.value });
               }}
               className="h-9 appearance-none rounded-full border border-border bg-surface pl-8 pr-8 text-sm text-foreground outline-none focus-visible:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
