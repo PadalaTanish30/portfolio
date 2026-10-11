@@ -31,7 +31,7 @@ export default function MusicPage() {
         <div className="space-y-10">
           {favourites.length > 0 ? (
             <section>
-              <h2 className="mb-4 text-xl font-semibold tracking-tight">
+              <h2 className="mb-4 font-display text-xl font-semibold tracking-tight">
                 Favourites
               </h2>
               <ul className="grid gap-3 sm:grid-cols-2">
@@ -44,7 +44,7 @@ export default function MusicPage() {
 
           {rest.length > 0 ? (
             <section>
-              <h2 className="mb-4 text-xl font-semibold tracking-tight">
+              <h2 className="mb-4 font-display text-xl font-semibold tracking-tight">
                 More
               </h2>
               <ul className="grid gap-3 sm:grid-cols-2">

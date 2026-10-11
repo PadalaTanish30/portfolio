@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 const styles = {
   primary:
-    "bg-primary text-primary-foreground hover:opacity-90 border border-transparent",
+    "bg-primary text-primary-foreground border border-transparent hover:opacity-90",
   secondary:
     "bg-surface text-foreground border border-border hover:bg-surface-muted",
   ghost:
@@ -37,7 +37,7 @@ export function ButtonLink({
   title?: string;
 }) {
   const classes = cn(
-    "inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+    "inline-flex items-center justify-center rounded-full font-medium transition-[transform,opacity,background-color,border-color,color,box-shadow] duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:translate-y-px",
     styles[variant],
     sizes[size],
     className,

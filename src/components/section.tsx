@@ -22,10 +22,10 @@ function SectionHeading({
       )}
     >
       <div>
-        <h2 className="flex items-center gap-2 text-xl font-semibold tracking-tight">
+        <h2 className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight text-balance">
           {title}
           {typeof count === "number" ? (
-            <span className="rounded-full bg-surface-muted px-2 py-0.5 text-xs font-medium text-muted">
+            <span className="rounded-full bg-surface-muted px-2 py-0.5 text-xs font-medium tabular-nums text-muted">
               {count}
             </span>
           ) : null}

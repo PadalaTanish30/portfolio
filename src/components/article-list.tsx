@@ -51,14 +51,13 @@ export function ArticleList({ articles }: { articles: Article[] }) {
         return (
           <li
             key={`${article.url}-${article.publishedAt}-${index}`}
-            className="group rounded-2xl border border-border bg-surface p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+            className="group rounded-2xl border border-border bg-surface p-4 shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]"
           >
-            <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
               <Badge variant={variantFor(article)}>{article.source}</Badge>
               <time dateTime={article.publishedAt}>
                 {formatDate(article.publishedAt)}
               </time>
-              <span aria-hidden="true">·</span>
               <span>{relativeTime(article.publishedAt)}</span>
             </div>
 

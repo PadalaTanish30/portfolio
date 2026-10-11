@@ -51,7 +51,7 @@ export default function ResumePage() {
 
       <div className="space-y-10">
         <section>
-          <h2 className="mb-4 text-xl font-semibold tracking-tight">
+          <h2 className="mb-4 font-display text-xl font-semibold tracking-tight">
             Experience
           </h2>
           <ol className="space-y-4 border-l border-border pl-5">
@@ -67,12 +67,12 @@ export default function ResumePage() {
                 <Card>
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
                     <h3 className="font-semibold">
-                      {job.role} ·{" "}
+                      {job.role},{" "}
                       <span className="text-primary">{job.company}</span>
                     </h3>
                     <p className="text-sm text-muted">
                       {job.start} – {job.end}
-                      {job.location ? ` · ${job.location}` : ""}
+                      {job.location ? `, ${job.location}` : ""}
                     </p>
                   </div>
                   <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-muted">
@@ -94,7 +94,7 @@ export default function ResumePage() {
         </section>
 
         <section>
-          <h2 className="mb-4 text-xl font-semibold tracking-tight">
+          <h2 className="mb-4 font-display text-xl font-semibold tracking-tight">
             Education
           </h2>
           <div className="space-y-4">
@@ -104,7 +104,7 @@ export default function ResumePage() {
                   <h3 className="font-semibold">{item.degree}</h3>
                   <p className="text-sm text-muted">
                     {item.start} – {item.end}
-                    {item.location ? ` · ${item.location}` : ""}
+                    {item.location ? `, ${item.location}` : ""}
                   </p>
                 </div>
                 <p className="text-sm text-primary">{item.school}</p>
@@ -121,7 +121,9 @@ export default function ResumePage() {
         </section>
 
         <section>
-          <h2 className="mb-4 text-xl font-semibold tracking-tight">Skills</h2>
+          <h2 className="mb-4 font-display text-xl font-semibold tracking-tight">
+            Skills
+          </h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {resume.skills.map((group) => (
               <Card key={group.category}>
@@ -139,7 +141,7 @@ export default function ResumePage() {
         </section>
 
         <section>
-          <h2 className="mb-4 text-xl font-semibold tracking-tight">
+          <h2 className="mb-4 font-display text-xl font-semibold tracking-tight">
             Projects
           </h2>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -180,7 +182,7 @@ export default function ResumePage() {
 
         {resume.certifications.length > 0 ? (
           <section>
-            <h2 className="mb-4 text-xl font-semibold tracking-tight">
+            <h2 className="mb-4 font-display text-xl font-semibold tracking-tight">
               Certifications
             </h2>
             <div className="space-y-2">
@@ -192,7 +194,7 @@ export default function ResumePage() {
                   <p className="font-medium">{cert.name}</p>
                   <p className="text-sm text-muted">
                     {cert.issuer}
-                    {cert.year ? ` · ${cert.year}` : ""}
+                    {cert.year ? `, ${cert.year}` : ""}
                   </p>
                 </Card>
               ))}

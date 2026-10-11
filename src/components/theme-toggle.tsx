@@ -99,7 +99,7 @@ export function ThemeToggle() {
             onClick={() => setTheme(value)}
             onKeyDown={(event) => handleKeyDown(event, index)}
             className={cn(
-              "rounded-full p-1.5 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+              "rounded-full p-1.5 transition-[background-color,color,box-shadow] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
               active
                 ? "bg-surface text-primary shadow-sm"
                 : "text-muted hover:text-foreground",

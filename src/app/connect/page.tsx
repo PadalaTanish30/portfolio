@@ -27,16 +27,14 @@ export default function ConnectPage() {
       />
 
       <section className="mb-10">
-        <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold tracking-tight">
+        <h2 className="mb-4 flex items-center gap-2 font-display text-xl font-semibold tracking-tight">
           <MessageCircle className="h-5 w-5 text-primary" aria-hidden="true" />
           Discord
         </h2>
         <Card className="space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted">
-                Username
-              </p>
+              <p className="text-xs font-medium text-muted">Username</p>
               <p className="font-mono text-lg font-semibold">
                 {discord.username}
               </p>
@@ -83,7 +81,9 @@ export default function ConnectPage() {
       </section>
 
       <section>
-        <h2 className="mb-4 text-xl font-semibold tracking-tight">Socials</h2>
+        <h2 className="mb-4 font-display text-xl font-semibold tracking-tight">
+          Socials
+        </h2>
         <ul className="grid gap-3 sm:grid-cols-2">
           {socials.map((social) => {
             const isExternal = !social.url.startsWith("mailto:");
@@ -115,14 +115,14 @@ export default function ConnectPage() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-3 shadow-sm transition-colors hover:bg-surface-muted"
+                    className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-3 shadow-[var(--shadow-card)] transition-[background-color,border-color,box-shadow] hover:bg-surface-muted hover:shadow-[var(--shadow-lift)]"
                   >
                     {inner}
                   </a>
                 ) : (
                   <a
                     href={social.url}
-                    className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-3 shadow-sm transition-colors hover:bg-surface-muted"
+                    className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-3 shadow-[var(--shadow-card)] transition-[background-color,border-color,box-shadow] hover:bg-surface-muted hover:shadow-[var(--shadow-lift)]"
                   >
                     {inner}
                   </a>

@@ -104,6 +104,9 @@ export function MediaExplorer({
             />
             <input
               type="search"
+              name="search"
+              autoComplete="off"
+              spellCheck={false}
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search…"
@@ -121,7 +124,7 @@ export function MediaExplorer({
               onChange={(event) => {
                 if (isSortKey(event.target.value)) setSort(event.target.value);
               }}
-              className="h-9 appearance-none rounded-full border border-border bg-surface pl-8 pr-8 text-sm outline-none focus-visible:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              className="h-9 appearance-none rounded-full border border-border bg-surface pl-8 pr-8 text-sm text-foreground outline-none focus-visible:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
               {SORTS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -164,7 +167,7 @@ function FilterChip({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+        "rounded-full border px-3 py-1.5 text-xs font-medium transition-[background-color,border-color,color] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
         active
           ? "border-primary bg-primary text-primary-foreground"
           : "border-border bg-surface text-muted hover:bg-surface-muted hover:text-foreground",

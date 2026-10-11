@@ -71,17 +71,19 @@ export default async function HomePage() {
   return (
     <Container>
       {/* Hero */}
-      <section className="flex flex-col gap-8 pb-14 sm:flex-row sm:items-start sm:justify-between">
+      <section className="hero-wash animate-rise relative overflow-hidden rounded-3xl border border-border p-6 sm:p-10">
         <div className="flex flex-col gap-5">
-          <Avatar name={profile.name} src={profile.avatar} size={112} />
+          <Avatar name={profile.name} src={profile.avatar} size={96} />
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+              <h1 className="font-display text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
                 {profile.name}
               </h1>
               {profile.pronouns ? <Badge>{profile.pronouns}</Badge> : null}
             </div>
-            <p className="max-w-xl text-lg text-muted">{profile.tagline}</p>
+            <p className="max-w-xl text-lg text-pretty text-muted">
+              {profile.tagline}
+            </p>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted">
               <span>{profile.handle}</span>
               {profile.location ? <span>{profile.location}</span> : null}
@@ -94,7 +96,7 @@ export default async function HomePage() {
               Connect
             </ButtonLink>
             <ButtonLink href="/articles" variant="ghost">
-              Latest articles{" "}
+              Latest articles
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </ButtonLink>
           </div>
@@ -104,7 +106,7 @@ export default async function HomePage() {
       </section>
 
       {/* About + Now */}
-      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+      <div className="mt-14 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <Section title="About">
           <Card className="space-y-4">
             {profile.bio.map((paragraph) => (
@@ -145,16 +147,19 @@ export default async function HomePage() {
             <li key={href}>
               <Link
                 href={href}
-                className="group flex h-full flex-col gap-3 rounded-2xl border border-border bg-surface p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md"
+                className="group flex h-full flex-col gap-3 rounded-2xl border border-border bg-surface p-4 shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[var(--shadow-lift)]"
               >
                 <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
                 <div>
-                  <p className="text-2xl font-bold">{value}</p>
+                  <p className="font-display text-2xl font-semibold tabular-nums tracking-tight">
+                    {value}
+                  </p>
                   <p className="text-sm font-medium">{label}</p>
                   <p className="text-xs text-muted">{detail}</p>
                 </div>
-                <span className="mt-auto inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity group-hover:opacity-100">
-                  Explore <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                <span className="mt-auto inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
+                  Explore
+                  <ArrowRight className="h-3 w-3" aria-hidden="true" />
                 </span>
               </Link>
             </li>
@@ -171,7 +176,7 @@ export default async function HomePage() {
             href="/articles"
             className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
           >
-            All articles{" "}
+            All articles
             <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
           </Link>
         }
@@ -208,9 +213,7 @@ function NowRow({ label, values }: { label: string; values: string[] }) {
   if (!values || values.length === 0) return null;
   return (
     <div className="flex flex-col gap-1">
-      <p className="text-xs font-semibold uppercase tracking-wider text-muted">
-        {label}
-      </p>
+      <p className="text-xs font-medium text-muted">{label}</p>
       <ul className="flex flex-wrap gap-1.5">
         {values.map((value) => (
           <li

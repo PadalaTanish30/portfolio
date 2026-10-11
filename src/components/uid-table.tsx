@@ -8,7 +8,7 @@ export function UidTable({ entries }: { entries: GameUID[] }) {
       <table className="w-full min-w-[40rem] border-collapse text-sm">
         <caption className="sr-only">Game account IDs for adding me</caption>
         <thead>
-          <tr className="border-b border-border bg-surface-muted text-left text-xs uppercase tracking-wide text-muted">
+          <tr className="border-b border-border bg-surface-muted text-left text-xs font-medium tabular-nums text-muted">
             <th scope="col" className="px-4 py-3 font-semibold">
               Game
             </th>

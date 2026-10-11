@@ -3,28 +3,49 @@
 /* Enable class-based dark mode (next-themes sets `class="dark"`) */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ------------------------------------------------------------------ */
+/* Design tokens                                                       */
+/* ------------------------------------------------------------------ */
 :root {
-  --background: #f8fafc;
+  color-scheme: light;
+
+  --background: #fbfbfd;
   --surface: #ffffff;
-  --surface-muted: #f1f5f9;
-  --foreground: #0f172a;
-  --muted: #64748b;
-  --border: #e2e8f0;
-  --primary: #6366f1;
+  --surface-muted: #f4f5f9;
+  --foreground: #0b1120;
+  --muted: #5b6577;
+  --border: #e6e8ef;
+  --primary: #4f46e5;
   --primary-foreground: #ffffff;
-  --accent: #ec4899;
+  --accent: #db2777;
+  --ring: #6366f1;
+
+  /* Elevation — layered, low-alpha, theme-aware. */
+  --shadow-xs: 0 1px 2px rgb(11 17 32 / 0.05);
+  --shadow-card:
+    0 1px 2px rgb(11 17 32 / 0.04), 0 2px 8px -2px rgb(11 17 32 / 0.06);
+  --shadow-lift:
+    0 10px 24px -10px rgb(11 17 32 / 0.18), 0 2px 8px -3px rgb(11 17 32 / 0.08);
 }
 
 .dark {
-  --background: #0b0f19;
-  --surface: #121826;
-  --surface-muted: #1a2234;
-  --foreground: #e6edf6;
-  --muted: #94a3b8;
-  --border: #232c40;
-  --primary: #818cf8;
-  --primary-foreground: #0b0f19;
+  color-scheme: dark;
+
+  --background: #070a12;
+  --surface: #0f1420;
+  --surface-muted: #151b2a;
+  --foreground: #e7ecf5;
+  --muted: #93a0b8;
+  --border: #202838;
+  --primary: #8b93ff;
+  --primary-foreground: #070a12;
   --accent: #f472b6;
+  --ring: #8b93ff;
+
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.5);
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.5), 0 2px 10px -2px rgb(0 0 0 / 0.45);
+  --shadow-lift:
+    0 12px 28px -12px rgb(0 0 0 / 0.7), 0 4px 10px -4px rgb(0 0 0 / 0.5);
 }
 
 @theme inline {
@@ -37,6 +58,14 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
+  --color-ring: var(--ring);
+
+  --font-sans:
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-display:
+    var(--font-space-grotesk), var(--font-inter), ui-sans-serif, system-ui,
+    sans-serif;
 }
 
 * {
@@ -45,13 +74,54 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
+  font-family: var(--font-sans);
   background-color: var(--background);
   color: var(--foreground);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+/* Text selection picks up the brand colour. */
+::selection {
+  background-color: color-mix(in oklab, var(--primary) 24%, transparent);
+  color: var(--foreground);
+}
+
+/* One bold move: a soft brand wash behind the hero. */
+.hero-wash {
+  background-image:
+    radial-gradient(
+      60% 80% at 12% -10%,
+      color-mix(in oklab, var(--primary) 16%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      45% 70% at 100% 0%,
+      color-mix(in oklab, var(--accent) 14%, transparent),
+      transparent 72%
+    );
+}
+
+/* A single, orchestrated entrance. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-rise {
+  animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Respect reduced-motion preferences */

@@ -18,7 +18,7 @@ export function MediaCard({
   return (
     <li
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md",
+        "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]",
         className,
       )}
     >
@@ -61,7 +61,7 @@ export function MediaCard({
             >
               <span className="line-clamp-2">{entry.title}</span>
               <ExternalLink
-                className="mt-0.5 h-3 w-3 shrink-0 opacity-0 transition-opacity group-hover:opacity-60"
+                className="mt-0.5 h-3 w-3 shrink-0 opacity-0 transition-opacity group-hover:opacity-60 group-focus-within:opacity-60"
                 aria-hidden="true"
               />
               <span className="sr-only">(opens in a new tab)</span>
@@ -88,7 +88,7 @@ export function MediaCard({
           </div>
           {entry.format || entry.year ? (
             <p className="truncate text-xs text-muted">
-              {[entry.format, entry.year].filter(Boolean).join(" · ")}
+              {[entry.format, entry.year].filter(Boolean).join(", ")}
             </p>
           ) : null}
           <ProgressBar

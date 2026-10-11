@@ -50,7 +50,7 @@ export function CopyButton({
       ) : (
         <Copy className="h-3.5 w-3.5" aria-hidden="true" />
       )}
-      <span>{copied ? copiedLabel : label}</span>
+      <span aria-live="polite">{copied ? copiedLabel : label}</span>
     </button>
   );
 }

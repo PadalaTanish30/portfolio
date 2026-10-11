@@ -14,7 +14,7 @@ export function MusicCard({
   return (
     <li
       className={cn(
-        "group flex items-center gap-4 rounded-2xl border border-border bg-surface p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md",
+        "group flex items-center gap-4 rounded-2xl border border-border bg-surface p-3 shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]",
         className,
       )}
     >
@@ -52,7 +52,7 @@ export function MusicCard({
         <p className="mt-1 truncate text-sm font-semibold">{entry.title}</p>
         <p className="truncate text-xs text-muted">
           {entry.artist}
-          {entry.album ? ` · ${entry.album}` : ""}
+          {entry.album ? ` – ${entry.album}` : ""}
         </p>
       </div>
 
@@ -61,7 +61,7 @@ export function MusicCard({
           href={entry.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="shrink-0 rounded-full border border-border p-2 text-muted transition-colors hover:bg-surface-muted hover:text-primary"
+          className="shrink-0 rounded-full border border-border p-2 text-muted transition-[background-color,color,border-color] hover:bg-surface-muted hover:text-primary"
           aria-label={`Listen to ${entry.title} (opens in a new tab)`}
         >
           <ExternalLink className="h-4 w-4" aria-hidden="true" />
