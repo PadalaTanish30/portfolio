@@ -4,9 +4,9 @@ import { ProfileSchema } from "@/lib/types";
 // ---------------------------------------------------------------------------
 // Profile details. This drives the Home page ("About" + "Now") and metadata.
 //
-// `pronouns` and `location` are omitted deliberately — they are optional and
-// are only rendered when set, so leaving them out hides the row entirely
-// rather than showing placeholder text. Add them back when you want them shown.
+// `location` is omitted deliberately — it is optional and is only rendered
+// when set, so leaving it out hides the row entirely rather than showing
+// placeholder text. Add it back when you want it shown.
 //
 // `tagline`, `bio`, and `now` are still generic copy — rewrite them in your
 // own words.
@@ -15,6 +15,7 @@ import { ProfileSchema } from "@/lib/types";
 const raw: Profile = {
   name: "Tanish Padala",
   handle: "@hey_tanish",
+  pronouns: "He/Him",
   tagline: "Developer, anime watcher, and chronic backlog collector.",
   email: "padalatanish30@gmail.com",
   bio: [

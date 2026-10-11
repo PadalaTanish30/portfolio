@@ -73,10 +73,12 @@ export default function ConnectPage() {
             ) : null}
           </div>
 
-          <p className="text-xs text-muted">
-            Heads up: use a <strong>never-expiring</strong> invite for the
-            server button, otherwise the link will eventually stop working.
-          </p>
+          {discord.serverInviteUrl ? (
+            <p className="text-xs text-muted">
+              Heads up: use a <strong>never-expiring</strong> invite for the
+              server button, otherwise the link will eventually stop working.
+            </p>
+          ) : null}
         </Card>
       </section>
 

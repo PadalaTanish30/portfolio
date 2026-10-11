@@ -46,6 +46,12 @@ export const socials: SocialLink[] = SocialLinkSchema.array().parse([
     handle: "TanZer0",
   },
   {
+    platform: "spotify",
+    label: "Spotify",
+    url: "https://open.spotify.com/user/733vsugs8l1xihizdmrtdhmju",
+    handle: "Tanish",
+  },
+  {
     platform: "email",
     label: "Email",
     url: "mailto:padalatanish30@gmail.com",
@@ -63,10 +69,8 @@ export const socials: SocialLink[] = SocialLinkSchema.array().parse([
 // ---------------------------------------------------------------------------
 
 const rawDiscord: Discord = {
-  username: "yourdiscordusername",
-  userId: "000000000000000000",
-  serverName: "Your Server",
-  serverInviteUrl: "https://discord.gg/your-invite",
+  username: "hey_tanish",
+  userId: "605775246112325652",
 };
 
 export const discord: Discord = DiscordSchema.parse(rawDiscord);
