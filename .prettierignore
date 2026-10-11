@@ -1,0 +1,10 @@
+# Build output and generated artifacts are never formatted.
+.next
+/out
+/build
+/coverage
+node_modules
+package-lock.json
+
+# Next.js generated types
+next-env.d.ts

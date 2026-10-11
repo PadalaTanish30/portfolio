@@ -42,14 +42,17 @@ Then open the files under `src/data/` and replace the placeholder values with yo
 
 ### Commands
 
-| Command             | What it does                                 |
-| ------------------- | -------------------------------------------- |
-| `npm run dev`       | Start the development server with hot reload |
-| `npm run build`     | Produce a production build                   |
-| `npm run start`     | Serve the production build locally           |
-| `npm run lint`      | Lint with ESLint                             |
-| `npm run typecheck` | Type-check with `tsc --noEmit`               |
-| `npm run format`    | Format everything with Prettier              |
+| Command                 | What it does                                 |
+| ----------------------- | -------------------------------------------- |
+| `npm run dev`           | Start the development server with hot reload |
+| `npm run build`         | Produce a production build                   |
+| `npm run start`         | Serve the production build locally           |
+| `npm run lint`          | Lint with ESLint                             |
+| `npm run typecheck`     | Type-check with `tsc --noEmit`               |
+| `npm run test`          | Run the unit test suite once (Vitest)        |
+| `npm run test:watch`    | Re-run tests on change (Vitest watch)        |
+| `npm run test:coverage` | Run tests and enforce coverage thresholds    |
+| `npm run format`        | Format everything with Prettier              |
 
 ## How to update your content
 
@@ -236,13 +239,32 @@ portfolio/
 │     ├─ anilist.ts            # AniList + Jikan sync with local fallback
 │     ├─ feeds.ts              # RSS/Atom fetching + parsing
 │     ├─ articles.ts           # merges feeds + manual updates
-│     └─ utils.ts              # formatting helpers
+│     ├─ utils.ts              # formatting helpers
+│     └─ *.test.ts             # Vitest unit tests (colocated with the logic)
 ├─ .env.example                # environment variable template
 ├─ next.config.ts              # remote image domains
+├─ vitest.config.mts           # test runner + coverage thresholds
 ├─ tsconfig.json               # TypeScript config (strict, `@/*` → `src/*`)
 ├─ package.json
 └─ README.md
 ```
+
+## Testing
+
+The risky logic — the RSS/Atom parser, the URL allow-list, the AniList/Jikan mappers and
+the article merge — is covered by a small Vitest suite that runs in a plain node
+environment. No network or database is touched: `fetch` is mocked, so the tests are fast,
+deterministic and free to run in CI.
+
+```bash
+npm test              # run once
+npm run test:watch    # re-run on change
+npm run test:coverage # run + enforce the coverage gate
+```
+
+Coverage thresholds are set to **80%** for statements, branches, functions and lines over
+`src/lib/**`. The report is written to `coverage/` (git-ignored). A failing threshold fails
+`npm run test:coverage`, so the gate is enforced rather than advisory.
 
 ## Troubleshooting
 

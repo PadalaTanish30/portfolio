@@ -34,3 +34,6 @@ yarn-error.log*
 
 # caching
 .cache
+
+# test coverage
+/coverage
