@@ -103,15 +103,29 @@ in the right column, and save. No other file needs to be touched.
 Copy `.env.example` to `.env.local` for local development. On Vercel, add the same keys
 under **Project → Settings → Environment Variables**.
 
-| Variable                     | Required               | Purpose                                                                                                                                                |
-| ---------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `NEXT_PUBLIC_SITE_URL`       | **Yes for production** | The public production URL. Used for metadata, the sitemap, the RSS feed and Open Graph tags. Defaults to `https://your-portfolio.vercel.app` if unset. |
-| `NEXT_PUBLIC_TWITTER_HANDLE` | No                     | Your X/Twitter handle (including the `@`) for social card metadata.                                                                                    |
-| `ANILIST_USERNAME`           | No                     | Your AniList username. Auto-syncs **both** your anime and manga lists. Free public API — no key required.                                              |
-| `MAL_USERNAME`               | No                     | Your MyAnimeList username, synced via the free Jikan API. Used only when `ANILIST_USERNAME` is unset or its sync fails.                                |
+| Variable                     | Required | Purpose                                                                                                                                                                                                                  |
+| ---------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `NEXT_PUBLIC_SITE_URL`       | No       | Canonical site URL. Used for metadata, the sitemap, the RSS feed and Open Graph tags. **Auto-detected on Vercel**; set it to pin a custom domain. Locally it defaults to `https://your-portfolio.vercel.app` when unset. |
+| `NEXT_PUBLIC_TWITTER_HANDLE` | No       | Your X/Twitter handle (including the `@`) for social card metadata.                                                                                                                                                      |
+| `ANILIST_USERNAME`           | No       | Your AniList username. Auto-syncs **both** your anime and manga lists. Free public API — no key required.                                                                                                                |
+| `MAL_USERNAME`               | No       | Your MyAnimeList username, synced via the free Jikan API. Used only when `ANILIST_USERNAME` is unset or its sync fails.                                                                                                  |
 
 > `NEXT_PUBLIC_*` variables are exposed to the browser; the others are only read on the
 > server at build/revalidate time.
+
+### How the site URL is resolved
+
+`src/lib/site.ts` picks the canonical URL in this order:
+
+1. `NEXT_PUBLIC_SITE_URL` — explicit override, use it for a custom domain.
+2. `VERCEL_PROJECT_PRODUCTION_URL` — injected by Vercel at build time; the project's
+   production domain.
+3. `VERCEL_URL` — the per-deployment host, so previews get working links too.
+4. `https://your-portfolio.vercel.app` — placeholder for local builds with no environment.
+
+Because steps 2–3 are automatic, a plain Vercel deploy produces correct canonical, sitemap
+and RSS links with **no configuration**. This value is inlined at build time (it is read
+from `process.env` while rendering), so changing it requires a redeploy.
 
 ## Auto-sync (Anime & Manga)
 
@@ -188,16 +202,18 @@ The project is designed to run on Vercel's free tier at zero cost.
 
 1. Push the repository to GitHub.
 2. In Vercel, choose **New Project** and import the repository.
-3. Add your environment variables under **Project → Settings → Environment Variables**
-   (`NEXT_PUBLIC_SITE_URL`, and optionally `NEXT_PUBLIC_TWITTER_HANDLE`, `ANILIST_USERNAME`
-   and `MAL_USERNAME`).
-4. Deploy. Vercel detects Next.js automatically — no build configuration needed.
-5. Optionally add a custom domain under **Settings → Domains**.
+3. Deploy. Vercel detects Next.js automatically — no build configuration needed, and the
+   canonical URL is auto-detected, so there is nothing to configure.
+4. Optionally add a custom domain under **Settings → Domains**.
+5. Optionally add env vars under **Project → Settings → Environment Variables** —
+   `NEXT_PUBLIC_SITE_URL` (only to pin a custom domain before it resolves automatically),
+   `NEXT_PUBLIC_TWITTER_HANDLE`, `ANILIST_USERNAME`, `MAL_USERNAME`.
 
-> **Set `NEXT_PUBLIC_SITE_URL` to your production URL** (for example
-> `https://your-portfolio.vercel.app` or your custom domain). It's used for canonical URLs,
-> the sitemap, Open Graph tags and the RSS feed, so leaving it as the placeholder will
-> produce incorrect links.
+> **`NEXT_PUBLIC_SITE_URL` is optional on Vercel.** The site falls back to the domain Vercel
+> injects at build time, so canonical URLs, the sitemap, Open Graph tags and the RSS feed are
+> correct on the first deploy. Set it only when you want to pin a custom domain explicitly.
+> It is inlined at build time, so any change needs a **redeploy** (uncheck "Use existing
+> Build Cache" to be safe).
 
 ## Project structure
 
