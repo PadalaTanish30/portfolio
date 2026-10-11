@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 
-export function SectionHeading({
+function SectionHeading({
   title,
   count,
   description,

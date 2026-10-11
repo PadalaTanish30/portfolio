@@ -42,7 +42,7 @@ const linkUrl = safeUrl("link").optional();
 /*  Anime / Manga                                                             */
 /* -------------------------------------------------------------------------- */
 
-export const mediaStatusValues = [
+const mediaStatusValues = [
   "watching",
   "reading",
   "completed",
@@ -51,7 +51,7 @@ export const mediaStatusValues = [
   "dropped",
 ] as const;
 
-export const MediaStatusSchema = z.enum(mediaStatusValues);
+const MediaStatusSchema = z.enum(mediaStatusValues);
 export type MediaStatus = z.infer<typeof MediaStatusSchema>;
 
 export const MediaEntrySchema = z.object({
@@ -81,7 +81,7 @@ export type MediaEntry = z.infer<typeof MediaEntrySchema>;
 /*  Games                                                                     */
 /* -------------------------------------------------------------------------- */
 
-export const gameStatusValues = [
+const gameStatusValues = [
   "playing",
   "completed",
   "backlog",
@@ -89,7 +89,7 @@ export const gameStatusValues = [
   "dropped",
 ] as const;
 
-export const GameStatusSchema = z.enum(gameStatusValues);
+const GameStatusSchema = z.enum(gameStatusValues);
 export type GameStatus = z.infer<typeof GameStatusSchema>;
 
 export const GameSchema = z.object({
@@ -122,9 +122,8 @@ export type GameUID = z.infer<typeof GameUIDSchema>;
 /*  Music                                                                     */
 /* -------------------------------------------------------------------------- */
 
-export const musicTypeValues = ["track", "album", "artist"] as const;
-export const MusicTypeSchema = z.enum(musicTypeValues);
-export type MusicType = z.infer<typeof MusicTypeSchema>;
+const musicTypeValues = ["track", "album", "artist"] as const;
+const MusicTypeSchema = z.enum(musicTypeValues);
 
 export const MusicEntrySchema = z.object({
   id: z.string().min(1),
@@ -256,19 +255,23 @@ export const FeedSourceSchema = z.object({
 
 export type FeedSource = z.infer<typeof FeedSourceSchema>;
 
-export const ArticleSchema = z.object({
-  title: z.string().min(1),
-  url: z.string().min(1),
-  source: z.string().min(1),
-  platform: z.string().optional(),
-  publishedAt: z.string(),
-  summary: z.string().optional(),
-  tags: z.array(z.string()).optional(),
+/**
+ * Article shape for RSS/manual aggregation. Unlike the other models this is a
+ * plain type: articles are always constructed in code (`lib/feeds`,
+ * `lib/articles`) and never parsed from external input, so a runtime schema
+ * would be dead weight.
+ */
+export interface Article {
+  title: string;
+  url: string;
+  source: string;
+  platform?: string;
+  publishedAt: string;
+  summary?: string;
+  tags?: string[];
   /** true when the item came from the local fallback data (offline build) */
-  fallback: z.boolean().optional(),
-});
-
-export type Article = z.infer<typeof ArticleSchema>;
+  fallback?: boolean;
+}
 
 export const UpdateEntrySchema = z.object({
   id: z.string().min(1),

@@ -56,7 +56,5 @@ export const navigation = [
   { href: "/connect", label: "Connect" },
 ] as const;
 
-export type NavItem = (typeof navigation)[number];
-
 /** Revalidation window (seconds) for API/RSS-backed content. 6 hours. */
 export const REVALIDATE_SECONDS = 60 * 60 * 6;

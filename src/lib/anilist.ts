@@ -56,7 +56,7 @@ function validateEntries(
 
 type MediaKind = "anime" | "manga";
 
-export type MediaSource = "anilist" | "jikan" | "fallback";
+type MediaSource = "anilist" | "jikan" | "fallback";
 
 export interface MediaListResult {
   entries: MediaEntry[];
