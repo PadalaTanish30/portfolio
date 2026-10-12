@@ -13,8 +13,9 @@ export function MusicCard({
 }) {
   return (
     <li
+      data-tilt
       className={cn(
-        "group flex items-center gap-4 rounded-md border border-border bg-surface p-3 shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] hover:-translate-y-0.5 hover:border-primary hover:shadow-[var(--shadow-lift)]",
+        "group flex items-center gap-4 rounded-md border border-border bg-surface p-3 shadow-[var(--shadow-card)] transition-[box-shadow,border-color] hover:border-primary hover:shadow-[var(--shadow-lift)]",
         className,
       )}
     >

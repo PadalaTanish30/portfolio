@@ -11,6 +11,12 @@ import {
   VolumeX,
 } from "lucide-react";
 import { nowPlaying } from "@/data/now-playing";
+import {
+  publishPlayerControls,
+  setPlayer,
+  unlock,
+  usePlayer,
+} from "@/lib/app-state";
 
 /* -------------------------------------------------------------------------- */
 /*  Minimal typings for the YouTube IFrame Player API                          */
@@ -106,11 +112,12 @@ function formatTime(seconds: number): string {
  */
 export function NowPlaying() {
   const [collapsed, setCollapsed] = useState(false);
-  const [started, setStarted] = useState(false);
-  const [playing, setPlaying] = useState(false);
-  const [muted, setMuted] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  // Shared with the command palette, so `⌘K → play` works even before the
+  // visitor has ever touched this card.
+  const { started, playing, muted } = usePlayer();
 
   const hostRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<YouTubePlayer | null>(null);
@@ -127,7 +134,8 @@ export function NowPlaying() {
   const startPlayer = useCallback(async () => {
     if (startingRef.current || playerRef.current) return;
     startingRef.current = true;
-    setStarted(true);
+    setPlayer({ started: true });
+    unlock("player");
 
     try {
       const YT = await loadYouTubeApi();
@@ -164,8 +172,7 @@ export function NowPlaying() {
           onStateChange: (event) => {
             const isPlaying = event.data === YT.PlayerState.PLAYING;
             const isEnded = event.data === YT.PlayerState.ENDED;
-            setPlaying(isPlaying);
-            setMuted(event.target.isMuted());
+            setPlayer({ playing: isPlaying, muted: event.target.isMuted() });
             if (isEnded) setProgress(0);
 
             stopTicking();
@@ -203,12 +210,18 @@ export function NowPlaying() {
     if (!player) return;
     if (player.isMuted()) {
       player.unMute();
-      setMuted(false);
+      setPlayer({ muted: false });
     } else {
       player.mute();
-      setMuted(true);
+      setPlayer({ muted: true });
     }
   }, []);
+
+  // Hand the palette the two imperative controls. The callbacks above are
+  // stable, so this runs once and never churns the store.
+  useEffect(() => {
+    publishPlayerControls({ toggle: togglePlay, toggleMute });
+  }, [togglePlay, toggleMute]);
 
   const seek = useCallback((value: number) => {
     const player = playerRef.current;

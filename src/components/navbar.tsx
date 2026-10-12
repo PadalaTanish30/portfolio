@@ -7,10 +7,12 @@ import {
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, Search, X } from "lucide-react";
 import { navigation } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { SoundToggle } from "@/components/sound-toggle";
+import { setPaletteOpen } from "@/lib/app-state";
 
 export function Navbar({ name, handle }: { name: string; handle: string }) {
   const pathname = usePathname();
@@ -37,7 +39,10 @@ export function Navbar({ name, handle }: { name: string; handle: string }) {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
+    <header
+      className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md"
+      style={{ viewTransitionName: "site-header" }}
+    >
       <nav aria-label="Primary" onKeyDown={handleKeyDown}>
         <div className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-2.5">
@@ -69,6 +74,22 @@ export function Navbar({ name, handle }: { name: string; handle: string }) {
           </ul>
 
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setPaletteOpen(true)}
+              aria-label="Open command palette"
+              title="Command palette (Ctrl/⌘ K)"
+              className="inline-flex h-9 items-center gap-2 rounded-sm border border-border bg-surface-muted px-2.5 text-xs font-medium text-muted transition-colors hover:border-primary hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              <Search className="h-4 w-4" aria-hidden="true" />
+              <span className="hidden sm:inline">Search</span>
+              <kbd className="hidden rounded-sm border border-border bg-surface px-1 py-0.5 font-mono text-[10px] md:inline">
+                ⌘K
+              </kbd>
+            </button>
+            <div className="hidden lg:block">
+              <SoundToggle />
+            </div>
             <div className="hidden lg:block">
               <ThemeToggle />
             </div>
@@ -115,8 +136,9 @@ export function Navbar({ name, handle }: { name: string; handle: string }) {
               </li>
             ))}
           </ul>
-          <div className="mx-auto w-full max-w-5xl px-4 pb-4 sm:px-6">
+          <div className="mx-auto flex w-full max-w-5xl gap-2 px-4 pb-4 sm:px-6">
             <ThemeToggle />
+            <SoundToggle />
           </div>
         </div>
       </nav>

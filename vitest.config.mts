@@ -21,7 +21,12 @@ export default defineConfig({
       reporter: ["text", "html"],
       reportsDirectory: "./coverage",
       include: ["src/lib/**/*.ts"],
-      exclude: ["src/lib/**/*.test.ts"],
+      exclude: [
+        "src/lib/**/*.test.ts",
+        // Browser-only glue (window, localStorage, Web Audio). The reusable,
+        // testable part lives in `src/lib/store.ts`.
+        "src/lib/app-state.ts",
+      ],
       thresholds: {
         lines: 80,
         functions: 80,

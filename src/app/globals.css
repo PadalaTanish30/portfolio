@@ -164,6 +164,140 @@ body {
   animation: equalize 1s ease-in-out infinite;
 }
 
+/* Achievement toast + command palette entrances. */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-toast {
+  animation: toast-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes palette-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-palette {
+  animation: palette-in 0.18s ease-out both;
+}
+
+/* ------------------------------------------------------------------ */
+/* Route transitions — React <ViewTransition> + the browser API        */
+/* ------------------------------------------------------------------ */
+
+/* A transition must never intercept clicks while it plays. */
+::view-transition {
+  pointer-events: none;
+}
+
+::view-transition-old(.page-out) {
+  animation: 0.16s ease-in both page-ink-out;
+}
+
+::view-transition-new(.page-in) {
+  animation: 0.34s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both page-ink-in;
+}
+
+@keyframes page-ink-out {
+  to {
+    opacity: 0;
+    filter: blur(2px);
+  }
+}
+
+@keyframes page-ink-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(2px);
+  }
+}
+
+/* Pin the masthead and footer: only the page's own ink should move. */
+::view-transition-group(site-header),
+::view-transition-group(site-footer) {
+  animation: none;
+  z-index: 100;
+}
+
+::view-transition-old(site-header),
+::view-transition-old(site-footer) {
+  display: none;
+}
+
+::view-transition-new(site-header),
+::view-transition-new(site-footer) {
+  animation: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Cyberpunk mode (the Konami easter egg)                              */
+/* ------------------------------------------------------------------ */
+
+.cyberpunk {
+  --primary: #00e5ff;
+  --primary-foreground: #04121b;
+  --accent: #ff2fb9;
+  --ring: #00e5ff;
+}
+
+.dark.cyberpunk {
+  --primary: #4df3ff;
+  --primary-foreground: #04121b;
+  --accent: #ff3cc4;
+  --ring: #4df3ff;
+}
+
+/* Chromatic split on the display type — a nod to the source material. */
+.cyberpunk .riso-ink {
+  text-shadow:
+    0.032em 0 0 color-mix(in oklab, var(--accent) 72%, transparent),
+    -0.032em 0 0 color-mix(in oklab, var(--primary) 72%, transparent);
+}
+
+/* CRT vignette + scanlines, painted above the page but inert. */
+.cyberpunk body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 89;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 90% at 50% 40%,
+    transparent 55%,
+    rgb(0 0 0 / 0.3) 100%
+  );
+}
+
+.cyberpunk body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 0.13) 0,
+    rgb(0 0 0 / 0.13) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
 /* Respect reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -173,6 +307,12 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+  /* `*` doesn't reach the view-transition pseudo-elements, so cover them too. */
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation: none !important;
   }
 }
 

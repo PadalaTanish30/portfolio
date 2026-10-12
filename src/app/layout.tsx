@@ -8,6 +8,12 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { NowPlaying } from "@/components/now-playing";
+import { CommandPalette } from "@/components/command-palette";
+import { AchievementToaster } from "@/components/achievement-toaster";
+import { CyberpunkMode } from "@/components/cyberpunk-mode";
+import { VisitTracker } from "@/components/visit-tracker";
+import { SoundEngine } from "@/components/sound-engine";
+import { TiltEngine } from "@/components/tilt-engine";
 
 const bodyFont = Archivo({
   subsets: ["latin"],
@@ -93,6 +99,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <Footer />
           </div>
           <NowPlaying />
+          <CommandPalette />
+          <AchievementToaster />
+          <CyberpunkMode />
+          <VisitTracker />
+          <SoundEngine />
+          <TiltEngine />
         </ThemeProvider>
       </body>
     </html>

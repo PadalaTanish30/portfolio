@@ -17,8 +17,9 @@ export function MediaCard({
 
   return (
     <li
+      data-tilt
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-md border border-border bg-surface shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] hover:-translate-y-0.5 hover:border-primary hover:shadow-[var(--shadow-lift)]",
+        "group relative flex flex-col overflow-hidden rounded-md border border-border bg-surface shadow-[var(--shadow-card)] transition-[box-shadow,border-color] hover:border-primary hover:shadow-[var(--shadow-lift)]",
         className,
       )}
     >

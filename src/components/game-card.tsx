@@ -15,8 +15,9 @@ export function GameCard({
 
   return (
     <li
+      data-tilt
       className={cn(
-        "group flex flex-col overflow-hidden rounded-md border border-border bg-surface shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] hover:-translate-y-0.5 hover:border-primary hover:shadow-[var(--shadow-lift)]",
+        "group flex flex-col overflow-hidden rounded-md border border-border bg-surface shadow-[var(--shadow-card)] transition-[box-shadow,border-color] hover:border-primary hover:shadow-[var(--shadow-lift)]",
         className,
       )}
     >
