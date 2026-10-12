@@ -4,7 +4,8 @@ name: regen-lock
 # lockfile was authored on Windows and omits cross-platform optional deps.
 # Delete this workflow once the regenerated lockfile is committed.
 on:
-  workflow_dispatch:
+  push:
+    branches: [chore/npm-ci]
 
 permissions:
   contents: read
