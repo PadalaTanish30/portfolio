@@ -105,11 +105,11 @@ export const gameUIDs: GameUID[] = GameUIDSchema.array().parse([
   },
   {
     game: "Steam",
-    uid: "your_steam_id",
+    uid: "TanZer0",
     region: "Global",
     platform: "PC",
     note: "Friend code",
-    link: "https://steamcommunity.com/id/yourhandle",
+    link: "https://steamcommunity.com/id/TanZer0",
   },
   {
     game: "Epic Games",

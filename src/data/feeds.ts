@@ -48,8 +48,12 @@ export const feedSources: FeedSource[] = FeedSourceSchema.array().parse([
     enabled: false,
   },
   {
+    // Public GitHub activity feed. Left off deliberately: it surfaces raw
+    // events (pushes, branch creations, stars, deletions) rather than actual
+    // posts, which reads as noise on a "what I've published" page. Flip
+    // `enabled` to true if you decide you want it after all.
     name: "GitHub",
-    url: "https://github.com/yourhandle.atom",
+    url: "https://github.com/PadalaTanish30.atom",
     platform: "github",
     enabled: false,
   },

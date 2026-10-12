@@ -70,7 +70,7 @@ export const resume: Resume = ResumeSchema.parse({
       name: "This Portfolio",
       description:
         "Data-driven personal site with auto-synced anime/manga lists and an aggregated articles feed.",
-      link: "https://github.com/yourhandle/portfolio",
+      link: "https://github.com/PadalaTanish30/portfolio",
       tech: ["Next.js", "TypeScript", "Tailwind CSS"],
     },
     {
