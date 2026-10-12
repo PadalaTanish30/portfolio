@@ -15,10 +15,12 @@
   --foreground: #191510;
   --muted: #6c6250;
   --border: #d3c7ac;
-  --primary: #1b3bff;
+  /* A slightly deeper electric than pure #1b3bff: same ink family, less
+     chroma glare when it lands as text or a solid block on warm stock. */
+  --primary: #1d35d6;
   --primary-foreground: #fbf7ec;
-  --accent: #102ad6;
-  --ring: #1b3bff;
+  --accent: #1226b4;
+  --ring: #1d35d6;
 
   /* A faint uncoated-stock grain, tiled behind all content. */
   --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.16'/%3E%3C/svg%3E");
@@ -95,7 +97,7 @@ body {
 
 /* Selection reads as a highlighter pass in the second ink. */
 ::selection {
-  background-color: color-mix(in oklab, var(--primary) 28%, transparent);
+  background-color: color-mix(in oklab, var(--primary) 22%, transparent);
   color: var(--foreground);
 }
 
@@ -103,16 +105,18 @@ body {
 /* Print devices                                                       */
 /* ------------------------------------------------------------------ */
 
-/* Riso misregistration: a hard electric-blue offset behind the ink. */
+/* Riso misregistration: a hard electric-blue offset behind the ink.
+   Kept deliberately tight — a large offset behind big display type reads
+   as a vibrating double image rather than a print artefact. */
 .riso-ink {
-  text-shadow: 0.042em 0.03em 0
-    color-mix(in oklab, var(--primary) 88%, transparent);
+  text-shadow: 0.03em 0.022em 0
+    color-mix(in oklab, var(--primary) 68%, transparent);
 }
 
 /* A halftone patch — the printer's dot screen. */
 .halftone {
   background-image: radial-gradient(
-    color-mix(in oklab, var(--primary) 50%, transparent) 1px,
+    color-mix(in oklab, var(--primary) 40%, transparent) 1px,
     transparent 1.6px
   );
   background-size: 7px 7px;
@@ -123,7 +127,7 @@ body {
   background-color: var(--surface);
   background-image: radial-gradient(
     70% 120% at 100% 0%,
-    color-mix(in oklab, var(--primary) 9%, transparent),
+    color-mix(in oklab, var(--primary) 7%, transparent),
     transparent 60%
   );
 }
@@ -142,6 +146,22 @@ body {
 
 .animate-rise {
   animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Now-playing equaliser: four ink bars that only move while audio plays. */
+@keyframes equalize {
+  0%,
+  100% {
+    transform: scaleY(0.28);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+.equalize-bar {
+  transform-origin: bottom;
+  animation: equalize 1s ease-in-out infinite;
 }
 
 /* Respect reduced-motion preferences */

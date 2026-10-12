@@ -7,6 +7,7 @@ import { siteConfig } from "@/lib/site";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { NowPlaying } from "@/components/now-playing";
 
 const bodyFont = Archivo({
   subsets: ["latin"],
@@ -91,6 +92,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </main>
             <Footer />
           </div>
+          <NowPlaying />
         </ThemeProvider>
       </body>
     </html>

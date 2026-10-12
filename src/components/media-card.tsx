@@ -37,12 +37,18 @@ export function MediaCard({
           </div>
         )}
 
+        {/* Scrim: gives the sticker edge separation from busy cover art. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-black/40 to-transparent"
+        />
+
         <div className="absolute left-2 top-2 flex flex-col gap-1">
-          <StatusBadge status={entry.status} />
+          <StatusBadge status={entry.status} variant="sticker" />
         </div>
 
         {entry.favourite ? (
-          <span className="absolute right-2 top-2 rounded-sm bg-foreground/75 p-1 text-primary-foreground">
+          <span className="absolute right-2 top-2 rounded-sm border border-black/10 bg-foreground/80 p-1 text-primary-foreground backdrop-blur-sm">
             <Star className="h-3.5 w-3.5 fill-current" aria-hidden="true" />
             <span className="sr-only">Favourite</span>
           </span>

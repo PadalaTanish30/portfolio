@@ -34,8 +34,12 @@ export function GameCard({
             No cover
           </div>
         )}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-14 bg-gradient-to-b from-black/40 to-transparent"
+        />
         <div className="absolute left-2 top-2">
-          <StatusBadge status={game.status} />
+          <StatusBadge status={game.status} variant="sticker" />
         </div>
       </div>
 
