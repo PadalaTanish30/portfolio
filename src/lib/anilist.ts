@@ -33,22 +33,30 @@ function safeUrlValue(value: string | null | undefined): string | undefined {
  * Remote entries are only semi-trusted: validate each one against the same
  * zod schema the local data uses, and drop anything malformed (a bad image
  * URL or unknown status would otherwise break rendering).
+ *
+ * Deduplication happens here because AniList returns a title in *every* list it
+ * belongs to, custom lists included — so the same media can arrive twice. Both
+ * copies are the same underlying `MediaList` entry (identical status, score and
+ * progress), so keeping the first is enough to give React a unique, stable key.
  */
 function validateEntries(
   candidates: (MediaEntry | null)[],
   kind: MediaKind,
 ): MediaEntry[] {
   const entries: MediaEntry[] = [];
+  const seen = new Set<MediaEntry["id"]>();
   for (const candidate of candidates) {
     if (!candidate) continue;
     const parsed = MediaEntrySchema.safeParse(candidate);
-    if (parsed.success) {
-      entries.push(parsed.data);
-    } else {
+    if (!parsed.success) {
       console.warn(
         `[anilist] skipped invalid ${kind} entry: ${parsed.error.issues[0]?.message}`,
       );
+      continue;
     }
+    if (seen.has(parsed.data.id)) continue;
+    seen.add(parsed.data.id);
+    entries.push(parsed.data);
   }
   return entries.slice(0, MAX_ENTRIES);
 }

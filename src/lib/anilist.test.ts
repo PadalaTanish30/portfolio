@@ -20,6 +20,15 @@ function anilistBody(entries: unknown[]) {
   return { data: { MediaListCollection: { lists: [{ entries }] } } };
 }
 
+/** AniList returns one list per status plus any custom lists the user made. */
+function anilistMultiListBody(lists: unknown[][]) {
+  return {
+    data: {
+      MediaListCollection: { lists: lists.map((entries) => ({ entries })) },
+    },
+  };
+}
+
 beforeEach(() => {
   // Sync failures are expected in several tests — keep the output clean.
   vi.spyOn(console, "warn").mockImplementation(() => {});
@@ -187,6 +196,50 @@ describe("getAnimeList — AniList source", () => {
     expect(entries).toEqual([]);
   });
 
+  it("deduplicates a title that AniList returns in more than one list", async () => {
+    vi.stubEnv("ANILIST_USERNAME", "someone");
+    const media = { id: 177687, title: { romaji: "Watched Twice" } };
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        jsonResponse(
+          anilistMultiListBody([
+            // A status list…
+            [{ status: "COMPLETED", score: 100, progress: 1, media }],
+            // …and a custom list holding the very same entry.
+            [{ status: "COMPLETED", score: 100, progress: 1, media }],
+          ]),
+        ),
+      ),
+    );
+
+    const { entries } = await getAnimeList();
+    expect(entries).toHaveLength(1);
+    expect(entries[0]?.id).toBe(177687);
+  });
+
+  it("keeps distinct titles from separate lists", async () => {
+    vi.stubEnv("ANILIST_USERNAME", "someone");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        jsonResponse(
+          anilistMultiListBody([
+            [{ status: "CURRENT", media: { id: 10, title: { romaji: "A" } } }],
+            [
+              {
+                status: "COMPLETED",
+                media: { id: 11, title: { romaji: "B" } },
+              },
+            ],
+          ]),
+        ),
+      ),
+    );
+    const { entries } = await getAnimeList();
+    expect(entries.map((entry) => entry.id)).toEqual([10, 11]);
+  });
+
   it("falls back to local data when AniList reports an error", async () => {
     vi.stubEnv("ANILIST_USERNAME", "someone");
     vi.stubGlobal(
@@ -266,6 +319,25 @@ describe("getMangaList — Jikan source", () => {
     );
     const { entries } = await getMangaList();
     expect(entries[0]?.status).toBe("plan");
+  });
+
+  it("deduplicates repeated entries from Jikan", async () => {
+    vi.stubEnv("ANILIST_USERNAME", "");
+    vi.stubEnv("MAL_USERNAME", "someone");
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        jsonResponse({
+          data: [
+            { entry: { mal_id: 5, title: "Once" }, status: "reading" },
+            { entry: { mal_id: 5, title: "Once" }, status: "reading" },
+          ],
+        }),
+      ),
+    );
+    const { entries } = await getMangaList();
+    expect(entries).toHaveLength(1);
+    expect(entries[0]?.id).toBe("mal-5");
   });
 
   it("falls back to local data when Jikan fails", async () => {
