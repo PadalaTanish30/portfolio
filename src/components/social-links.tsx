@@ -28,7 +28,7 @@ export function SocialLinks({
         );
 
         const classes = cn(
-          "inline-flex items-center gap-2 rounded-full border border-border bg-surface p-2.5 text-sm font-medium transition-colors hover:bg-surface-muted hover:text-primary",
+          "inline-flex items-center gap-2 rounded-sm border border-border bg-surface p-2.5 text-sm font-medium transition-colors hover:border-primary hover:text-primary",
           showLabels && "px-3.5 py-2",
           itemClassName,
         );

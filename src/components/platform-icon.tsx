@@ -64,7 +64,7 @@ export function PlatformIcon({
     <span
       aria-hidden="true"
       className={cn(
-        "inline-flex items-center justify-center rounded-full bg-surface-muted text-[0.7em] font-semibold leading-none text-muted",
+        "inline-flex items-center justify-center rounded-sm bg-surface-muted text-[0.7em] font-semibold leading-none text-muted",
         className,
       )}
     >

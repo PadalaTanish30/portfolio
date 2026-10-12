@@ -18,7 +18,7 @@ export function ProgressBar({
   return (
     <div className={cn("space-y-1", className)}>
       <div
-        className="h-1.5 w-full overflow-hidden rounded-full bg-surface-muted"
+        className="h-1.5 w-full overflow-hidden rounded-sm bg-surface-muted"
         role="progressbar"
         aria-valuenow={pct}
         aria-valuemin={0}
@@ -26,7 +26,7 @@ export function ProgressBar({
         aria-label={label ?? "Progress"}
       >
         <div
-          className="h-full rounded-full bg-primary"
+          className="h-full rounded-sm bg-primary"
           style={{ width: `${pct}%` }}
         />
       </div>

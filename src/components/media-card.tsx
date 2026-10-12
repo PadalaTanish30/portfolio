@@ -18,7 +18,7 @@ export function MediaCard({
   return (
     <li
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]",
+        "group relative flex flex-col overflow-hidden rounded-md border border-border bg-surface shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] hover:-translate-y-0.5 hover:border-primary hover:shadow-[var(--shadow-lift)]",
         className,
       )}
     >
@@ -42,7 +42,7 @@ export function MediaCard({
         </div>
 
         {entry.favourite ? (
-          <span className="absolute right-2 top-2 rounded-full bg-black/60 p-1 text-amber-300">
+          <span className="absolute right-2 top-2 rounded-sm bg-foreground/75 p-1 text-primary-foreground">
             <Star className="h-3.5 w-3.5 fill-current" aria-hidden="true" />
             <span className="sr-only">Favourite</span>
           </span>

@@ -21,7 +21,6 @@ export default function ConnectPage() {
   return (
     <Container size="narrow">
       <PageHeader
-        eyebrow="Connect"
         title="Find me online"
         description="Add me on Discord or find me on any of the platforms below. The quickest way to reach me is Discord."
       />
@@ -89,7 +88,7 @@ export default function ConnectPage() {
             const isExternal = !social.url.startsWith("mailto:");
             const inner = (
               <>
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-surface-muted text-primary">
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-sm bg-surface-muted text-primary">
                   <PlatformIcon
                     platform={social.platform}
                     className="h-4 w-4"
@@ -115,14 +114,14 @@ export default function ConnectPage() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-3 shadow-[var(--shadow-card)] transition-[background-color,border-color,box-shadow] hover:bg-surface-muted hover:shadow-[var(--shadow-lift)]"
+                    className="flex items-center gap-3 rounded-md border border-border bg-surface p-3 shadow-[var(--shadow-card)] transition-[background-color,border-color,box-shadow] hover:border-primary hover:bg-surface-muted"
                   >
                     {inner}
                   </a>
                 ) : (
                   <a
                     href={social.url}
-                    className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-3 shadow-[var(--shadow-card)] transition-[background-color,border-color,box-shadow] hover:bg-surface-muted hover:shadow-[var(--shadow-lift)]"
+                    className="flex items-center gap-3 rounded-md border border-border bg-surface p-3 shadow-[var(--shadow-card)] transition-[background-color,border-color,box-shadow] hover:border-primary hover:bg-surface-muted"
                   >
                     {inner}
                   </a>

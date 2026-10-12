@@ -4,13 +4,13 @@ import type { ReactNode } from "react";
 
 const styles = {
   primary:
-    "bg-primary text-primary-foreground border border-transparent hover:opacity-90",
+    "bg-primary text-primary-foreground border border-primary hover:-translate-y-px hover:shadow-[3px_3px_0_0_var(--foreground)]",
   secondary:
-    "bg-surface text-foreground border border-border hover:bg-surface-muted",
+    "bg-surface text-foreground border border-border hover:border-primary hover:-translate-y-px hover:shadow-[3px_3px_0_0_var(--primary)]",
   ghost:
-    "bg-transparent text-foreground hover:bg-surface-muted border border-transparent",
+    "bg-transparent text-foreground border border-transparent hover:bg-surface-muted",
   outline:
-    "bg-transparent text-primary border border-primary/40 hover:bg-primary/10",
+    "bg-transparent text-primary border border-primary hover:bg-primary hover:text-primary-foreground",
 } as const;
 
 const sizes = {
@@ -37,7 +37,7 @@ export function ButtonLink({
   title?: string;
 }) {
   const classes = cn(
-    "inline-flex items-center justify-center rounded-full font-medium transition-[transform,opacity,background-color,border-color,color,box-shadow] duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:translate-y-px",
+    "inline-flex items-center justify-center rounded-sm font-medium transition-[transform,box-shadow,background-color,border-color,color] duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary active:translate-y-0",
     styles[variant],
     sizes[size],
     className,

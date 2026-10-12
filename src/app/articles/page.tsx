@@ -26,7 +26,6 @@ export default async function ArticlesPage() {
   return (
     <Container size="narrow">
       <PageHeader
-        eyebrow="Articles & Updates"
         title="Everything I post"
         description="New and recent things I've published or shared, newest first. Subscribe once via RSS and you'll never miss a post."
         actions={

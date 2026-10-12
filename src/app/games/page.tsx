@@ -24,7 +24,6 @@ export default function GamesPage() {
   return (
     <Container>
       <PageHeader
-        eyebrow="Video Games"
         title="Games I play"
         description="What I'm playing right now, what's waiting in the backlog, and where you can add me."
       />

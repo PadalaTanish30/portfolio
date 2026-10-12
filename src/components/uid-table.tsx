@@ -4,7 +4,7 @@ import { CopyButton } from "@/components/copy-button";
 
 export function UidTable({ entries }: { entries: GameUID[] }) {
   return (
-    <div className="overflow-x-auto rounded-2xl border border-border">
+    <div className="overflow-x-auto rounded-md border border-border">
       <table className="w-full min-w-[40rem] border-collapse text-sm">
         <caption className="sr-only">Game account IDs for adding me</caption>
         <thead>
@@ -41,7 +41,7 @@ export function UidTable({ entries }: { entries: GameUID[] }) {
                 </span>
               </td>
               <td className="px-4 py-3">
-                <code className="rounded bg-surface-muted px-2 py-1 font-mono text-xs">
+                <code className="rounded-sm border border-border bg-surface-muted px-2 py-1 font-mono text-xs">
                   {entry.uid}
                 </code>
               </td>
@@ -54,7 +54,7 @@ export function UidTable({ entries }: { entries: GameUID[] }) {
                       href={entry.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex h-8 items-center gap-1 rounded-full border border-border px-2.5 text-xs font-medium hover:bg-surface-muted"
+                      className="inline-flex h-8 items-center gap-1 rounded-sm border border-border px-2.5 text-xs font-medium hover:bg-surface-muted"
                     >
                       Open
                       <ExternalLink className="h-3 w-3" aria-hidden="true" />

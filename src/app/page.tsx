@@ -1,12 +1,5 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  BookOpen,
-  Gamepad2,
-  Library,
-  Music2,
-  Sparkles,
-} from "lucide-react";
+import { BookOpen, Gamepad2, Library, Music2, Sparkles } from "lucide-react";
 import { profile } from "@/data/profile";
 import { games } from "@/data/games";
 import { music } from "@/data/music";
@@ -70,13 +63,18 @@ export default async function HomePage() {
 
   return (
     <Container>
-      {/* Hero */}
-      <section className="hero-wash animate-rise relative overflow-hidden rounded-3xl border border-border p-6 sm:p-10">
-        <div className="flex flex-col gap-5">
+      {/* Hero — a printed masthead: warm stock, one ink wash, and the
+          signature riso misregistration behind the name. */}
+      <section className="hero-wash animate-rise relative overflow-hidden rounded-md border border-border p-6 sm:p-10">
+        <div
+          aria-hidden="true"
+          className="halftone pointer-events-none absolute -right-4 -top-4 h-28 w-28 opacity-25 sm:h-40 sm:w-40"
+        />
+        <div className="relative flex flex-col gap-6">
           <Avatar name={profile.name} src={profile.avatar} size={96} />
           <div className="space-y-3">
-            <div className="flex flex-wrap items-center gap-2">
-              <h1 className="font-display text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="riso-ink font-display text-4xl font-semibold tracking-tight text-balance sm:text-6xl">
                 {profile.name}
               </h1>
               {profile.pronouns ? <Badge>{profile.pronouns}</Badge> : null}
@@ -97,7 +95,6 @@ export default async function HomePage() {
             </ButtonLink>
             <ButtonLink href="/articles" variant="ghost">
               Latest articles
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </ButtonLink>
           </div>
 
@@ -140,27 +137,23 @@ export default async function HomePage() {
         </Section>
       </div>
 
-      {/* Stats / quick links */}
+      {/* Browse — a hairline grid, set like a printed table. */}
       <Section title="Browse" className="mt-14">
-        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-md border border-border bg-border lg:grid-cols-4">
           {stats.map(({ href, label, value, detail, Icon }) => (
-            <li key={href}>
+            <li key={href} className="bg-surface">
               <Link
                 href={href}
-                className="group flex h-full flex-col gap-3 rounded-2xl border border-border bg-surface p-4 shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[var(--shadow-lift)]"
+                className="flex h-full flex-col gap-3 p-4 transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
                 <div>
-                  <p className="font-display text-2xl font-semibold tabular-nums tracking-tight">
+                  <p className="font-display text-3xl font-semibold tabular-nums tracking-tight">
                     {value}
                   </p>
                   <p className="text-sm font-medium">{label}</p>
                   <p className="text-xs text-muted">{detail}</p>
                 </div>
-                <span className="mt-auto inline-flex items-center gap-1 text-xs font-medium text-primary opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
-                  Explore
-                  <ArrowRight className="h-3 w-3" aria-hidden="true" />
-                </span>
               </Link>
             </li>
           ))}
@@ -174,10 +167,9 @@ export default async function HomePage() {
         action={
           <Link
             href="/articles"
-            className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+            className="text-sm font-medium text-primary hover:underline"
           >
             All articles
-            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
           </Link>
         }
       >
@@ -218,7 +210,7 @@ function NowRow({ label, values }: { label: string; values: string[] }) {
         {values.map((value) => (
           <li
             key={value}
-            className="rounded-full bg-surface-muted px-2.5 py-1 text-sm"
+            className="rounded-sm border border-border bg-surface-muted px-2.5 py-1 text-sm"
           >
             {value}
           </li>

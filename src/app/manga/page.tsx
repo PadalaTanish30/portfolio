@@ -25,7 +25,6 @@ export default async function MangaPage() {
   return (
     <Container>
       <PageHeader
-        eyebrow="Manga"
         title="Manga I read"
         description={
           <span className="flex flex-wrap items-center gap-2">

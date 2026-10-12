@@ -27,7 +27,6 @@ export default async function AnimePage() {
   return (
     <Container>
       <PageHeader
-        eyebrow="Anime"
         title="Anime I watch"
         description={
           <span className="flex flex-wrap items-center gap-2">

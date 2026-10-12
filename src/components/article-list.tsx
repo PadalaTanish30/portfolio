@@ -42,7 +42,7 @@ function variantFor(article: Article): BadgeVariant {
 
 export function ArticleList({ articles }: { articles: Article[] }) {
   return (
-    <ol className="space-y-3">
+    <ol className="divide-y divide-border border-y border-border">
       {articles.map((article, index) => {
         // Never trust a feed URL — only http(s) or site-relative survive.
         const href = safeHref(article.url);
@@ -51,7 +51,7 @@ export function ArticleList({ articles }: { articles: Article[] }) {
         return (
           <li
             key={`${article.url}-${article.publishedAt}-${index}`}
-            className="group rounded-2xl border border-border bg-surface p-4 shadow-[var(--shadow-card)] transition-[transform,box-shadow,border-color] hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)]"
+            className="group py-5 transition-colors"
           >
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
               <Badge variant={variantFor(article)}>{article.source}</Badge>
@@ -61,7 +61,7 @@ export function ArticleList({ articles }: { articles: Article[] }) {
               <span>{relativeTime(article.publishedAt)}</span>
             </div>
 
-            <h2 className="mt-2 text-base font-semibold leading-snug">
+            <h2 className="mt-2 font-display text-xl font-semibold leading-snug">
               {href ? (
                 <a
                   href={href}
@@ -73,7 +73,7 @@ export function ArticleList({ articles }: { articles: Article[] }) {
                   <span>{article.title}</span>
                   {external ? (
                     <ExternalLink
-                      className="mt-1 h-3.5 w-3.5 shrink-0 opacity-40"
+                      className="mt-1.5 h-3.5 w-3.5 shrink-0 opacity-40"
                       aria-hidden="true"
                     />
                   ) : null}
@@ -97,7 +97,7 @@ export function ArticleList({ articles }: { articles: Article[] }) {
                 {article.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full bg-surface-muted px-2 py-0.5 text-[0.7rem] text-muted"
+                    className="rounded-sm border border-border bg-surface px-2 py-0.5 text-[0.7rem] text-muted"
                   >
                     #{tag}
                   </span>

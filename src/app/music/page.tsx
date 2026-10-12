@@ -17,7 +17,6 @@ export default function MusicPage() {
   return (
     <Container size="narrow">
       <PageHeader
-        eyebrow="Music"
         title="What I'm listening to"
         description="Artists, albums and tracks I keep coming back to. Links open in Spotify or YouTube."
       />

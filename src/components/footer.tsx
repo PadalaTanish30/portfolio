@@ -8,10 +8,12 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-20 border-t border-border bg-surface/40">
-      <Container className="flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
+    <footer className="mt-20 border-t border-border">
+      <Container className="flex flex-col gap-6 py-10 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-2">
-          <p className="font-semibold">{profile.name}</p>
+          <p className="font-display text-lg font-semibold tracking-tight">
+            {profile.name}
+          </p>
           <p className="max-w-sm text-sm text-muted">
             Built with Next.js and Tailwind. Content lives in typed data files —
             no CMS required.

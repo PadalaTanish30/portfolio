@@ -37,27 +37,29 @@ export function Navbar({ name, handle }: { name: string; handle: string }) {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur-md">
       <nav aria-label="Primary" onKeyDown={handleKeyDown}>
         <div className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-2 font-semibold">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-sm font-bold text-primary-foreground">
+          <Link href="/" className="flex items-center gap-2.5">
+            <span className="grid h-8 w-8 place-items-center rounded-sm bg-primary font-display text-base font-semibold text-primary-foreground">
               {name.charAt(0).toUpperCase()}
             </span>
-            <span className="hidden text-sm sm:block">{handle}</span>
+            <span className="hidden font-display text-sm font-semibold tracking-tight sm:block">
+              {handle}
+            </span>
           </Link>
 
-          <ul className="hidden items-center gap-1 lg:flex">
+          <ul className="hidden items-center gap-5 lg:flex">
             {navigation.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   aria-current={isActive(item.href) ? "page" : undefined}
                   className={cn(
-                    "rounded-full px-3 py-1.5 text-sm font-medium transition-colors",
+                    "text-sm font-medium transition-colors",
                     isActive(item.href)
-                      ? "bg-surface-muted text-foreground"
-                      : "text-muted hover:bg-surface-muted hover:text-foreground",
+                      ? "text-foreground underline decoration-primary decoration-2 underline-offset-[6px]"
+                      : "text-muted hover:text-foreground",
                   )}
                 >
                   {item.label}
@@ -77,7 +79,7 @@ export function Navbar({ name, handle }: { name: string; handle: string }) {
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="grid h-9 w-9 place-items-center rounded-full border border-border bg-surface text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary lg:hidden"
+              className="grid h-9 w-9 place-items-center rounded-sm border border-border bg-surface text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary lg:hidden"
             >
               {open ? (
                 <X className="h-4 w-4" aria-hidden="true" />
@@ -102,10 +104,10 @@ export function Navbar({ name, handle }: { name: string; handle: string }) {
                   onClick={() => setOpen(false)}
                   aria-current={isActive(item.href) ? "page" : undefined}
                   className={cn(
-                    "block rounded-xl px-3 py-2 text-sm font-medium",
+                    "block rounded-sm border-l-2 px-3 py-2 text-sm font-medium",
                     isActive(item.href)
-                      ? "bg-surface-muted text-foreground"
-                      : "text-muted hover:bg-surface-muted hover:text-foreground",
+                      ? "border-primary bg-surface-muted text-foreground"
+                      : "border-transparent text-muted hover:bg-surface-muted hover:text-foreground",
                   )}
                 >
                   {item.label}

@@ -4,48 +4,53 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ------------------------------------------------------------------ */
-/* Design tokens                                                       */
+/* Design tokens — "Riso": warm print stock + one electric-blue ink.   */
 /* ------------------------------------------------------------------ */
 :root {
   color-scheme: light;
 
-  --background: #fbfbfd;
-  --surface: #ffffff;
-  --surface-muted: #f4f5f9;
-  --foreground: #0b1120;
-  --muted: #5b6577;
-  --border: #e6e8ef;
-  --primary: #4f46e5;
-  --primary-foreground: #ffffff;
-  --accent: #db2777;
-  --ring: #6366f1;
+  --background: #f3ecdd;
+  --surface: #fbf7ec;
+  --surface-muted: #e9dfca;
+  --foreground: #191510;
+  --muted: #6c6250;
+  --border: #d3c7ac;
+  --primary: #1b3bff;
+  --primary-foreground: #fbf7ec;
+  --accent: #102ad6;
+  --ring: #1b3bff;
 
-  /* Elevation — layered, low-alpha, theme-aware. */
-  --shadow-xs: 0 1px 2px rgb(11 17 32 / 0.05);
+  /* A faint uncoated-stock grain, tiled behind all content. */
+  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.16'/%3E%3C/svg%3E");
+
+  /* Elevation — print sits flat; shadows are ink bleed, not chrome. */
+  --shadow-xs: 0 1px 0 rgb(25 21 16 / 0.06);
   --shadow-card:
-    0 1px 2px rgb(11 17 32 / 0.04), 0 2px 8px -2px rgb(11 17 32 / 0.06);
+    0 1px 2px rgb(25 21 16 / 0.05), 0 8px 20px -16px rgb(25 21 16 / 0.35);
   --shadow-lift:
-    0 10px 24px -10px rgb(11 17 32 / 0.18), 0 2px 8px -3px rgb(11 17 32 / 0.08);
+    0 12px 30px -18px rgb(25 21 16 / 0.4), 0 2px 6px -4px rgb(25 21 16 / 0.16);
 }
 
 .dark {
   color-scheme: dark;
 
-  --background: #070a12;
-  --surface: #0f1420;
-  --surface-muted: #151b2a;
-  --foreground: #e7ecf5;
-  --muted: #93a0b8;
-  --border: #202838;
-  --primary: #8b93ff;
-  --primary-foreground: #070a12;
-  --accent: #f472b6;
-  --ring: #8b93ff;
+  --background: #131109;
+  --surface: #1c1913;
+  --surface-muted: #262118;
+  --foreground: #f3ecdd;
+  --muted: #a89b81;
+  --border: #332c21;
+  --primary: #8aa2ff;
+  --primary-foreground: #131109;
+  --accent: #6e86ff;
+  --ring: #8aa2ff;
 
-  --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.5);
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.5), 0 2px 10px -2px rgb(0 0 0 / 0.45);
+  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='0.1'/%3E%3C/svg%3E");
+
+  --shadow-xs: 0 1px 0 rgb(0 0 0 / 0.5);
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.5), 0 8px 22px -16px rgb(0 0 0 / 0.7);
   --shadow-lift:
-    0 12px 28px -12px rgb(0 0 0 / 0.7), 0 4px 10px -4px rgb(0 0 0 / 0.5);
+    0 14px 34px -18px rgb(0 0 0 / 0.75), 0 2px 8px -4px rgb(0 0 0 / 0.6);
 }
 
 @theme inline {
@@ -60,12 +65,12 @@
   --color-accent: var(--accent);
   --color-ring: var(--ring);
 
+  /* Archivo carries the body/UI; Fraunces carries the print display voice. */
   --font-sans:
-    var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    var(--font-archivo), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, Helvetica, Arial, sans-serif;
   --font-display:
-    var(--font-space-grotesk), var(--font-inter), ui-sans-serif, system-ui,
-    sans-serif;
+    var(--font-fraunces), Georgia, "Times New Roman", ui-serif, serif;
 }
 
 * {
@@ -81,31 +86,46 @@ html {
 body {
   font-family: var(--font-sans);
   background-color: var(--background);
+  background-image: var(--paper-grain);
   color: var(--foreground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
-/* Text selection picks up the brand colour. */
+/* Selection reads as a highlighter pass in the second ink. */
 ::selection {
-  background-color: color-mix(in oklab, var(--primary) 24%, transparent);
+  background-color: color-mix(in oklab, var(--primary) 28%, transparent);
   color: var(--foreground);
 }
 
-/* One bold move: a soft brand wash behind the hero. */
+/* ------------------------------------------------------------------ */
+/* Print devices                                                       */
+/* ------------------------------------------------------------------ */
+
+/* Riso misregistration: a hard electric-blue offset behind the ink. */
+.riso-ink {
+  text-shadow: 0.042em 0.03em 0
+    color-mix(in oklab, var(--primary) 88%, transparent);
+}
+
+/* A halftone patch — the printer's dot screen. */
+.halftone {
+  background-image: radial-gradient(
+    color-mix(in oklab, var(--primary) 50%, transparent) 1px,
+    transparent 1.6px
+  );
+  background-size: 7px 7px;
+}
+
+/* The hero panel: warm stock with a single ink wash in one corner. */
 .hero-wash {
-  background-image:
-    radial-gradient(
-      60% 80% at 12% -10%,
-      color-mix(in oklab, var(--primary) 16%, transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      45% 70% at 100% 0%,
-      color-mix(in oklab, var(--accent) 14%, transparent),
-      transparent 72%
-    );
+  background-color: var(--surface);
+  background-image: radial-gradient(
+    70% 120% at 100% 0%,
+    color-mix(in oklab, var(--primary) 9%, transparent),
+    transparent 60%
+  );
 }
 
 /* A single, orchestrated entrance. */
@@ -143,6 +163,7 @@ body {
   }
   body {
     background: #fff;
+    background-image: none;
     color: #000;
   }
 }

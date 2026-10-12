@@ -15,26 +15,23 @@ function SectionHeading({
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        "mb-4 flex flex-wrap items-end justify-between gap-3",
-        className,
-      )}
-    >
-      <div>
-        <h2 className="flex items-center gap-2 font-display text-xl font-semibold tracking-tight text-balance">
+    <div className={cn("mb-5", className)}>
+      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <h2 className="font-display text-2xl font-semibold tracking-tight text-balance">
           {title}
-          {typeof count === "number" ? (
-            <span className="rounded-full bg-surface-muted px-2 py-0.5 text-xs font-medium tabular-nums text-muted">
-              {count}
-            </span>
-          ) : null}
         </h2>
-        {description ? (
-          <p className="mt-1 text-sm text-muted">{description}</p>
+        {typeof count === "number" ? (
+          <span className="text-sm tabular-nums text-muted">{count}</span>
         ) : null}
+        <span
+          className="hidden h-px flex-1 self-center bg-border sm:block"
+          aria-hidden="true"
+        />
+        {action ? <div className="ml-auto">{action}</div> : null}
       </div>
-      {action ? <div>{action}</div> : null}
+      {description ? (
+        <p className="mt-1 text-sm text-muted">{description}</p>
+      ) : null}
     </div>
   );
 }

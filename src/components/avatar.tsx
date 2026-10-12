@@ -31,7 +31,7 @@ export function Avatar({
         width={size}
         height={size}
         className={cn(
-          "rounded-2xl border border-border object-cover",
+          "rounded-md border border-border object-cover",
           className,
         )}
         style={{ width: size, height: size }}
@@ -44,7 +44,7 @@ export function Avatar({
     <div
       aria-hidden="true"
       className={cn(
-        "flex items-center justify-center rounded-2xl border border-border bg-gradient-to-br from-primary/20 to-accent/20 text-2xl font-bold text-foreground",
+        "flex items-center justify-center rounded-md border border-border bg-surface-muted font-display text-3xl font-semibold text-primary",
         className,
       )}
       style={{ width: size, height: size }}

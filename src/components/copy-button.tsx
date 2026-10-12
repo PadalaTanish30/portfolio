@@ -40,7 +40,7 @@ export function CopyButton({
         copied ? `${ariaLabel ?? label} — copied` : (ariaLabel ?? label)
       }
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border border-border bg-surface font-medium transition-colors hover:bg-surface-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+        "inline-flex items-center gap-1.5 rounded-sm border border-border bg-surface font-medium transition-colors hover:border-primary hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
         size === "sm" ? "h-8 px-2.5 text-xs" : "h-9 px-3 text-sm",
         className,
       )}

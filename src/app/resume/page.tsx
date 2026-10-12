@@ -29,7 +29,6 @@ export default function ResumePage() {
   return (
     <Container size="narrow">
       <PageHeader
-        eyebrow="Résumé"
         title={profile.name}
         description={resume.summary}
         actions={
@@ -38,7 +37,7 @@ export default function ResumePage() {
               <a
                 href="/resume.pdf"
                 download
-                className="inline-flex h-9 items-center gap-2 rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+                className="inline-flex h-9 items-center gap-2 rounded-sm bg-primary px-4 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
               >
                 <Download className="h-4 w-4" aria-hidden="true" />
                 Download PDF
